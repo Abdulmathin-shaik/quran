@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="96" fill="#1b2d42"/>
+  <rect x="36" y="36" width="440" height="440" rx="64" fill="#0f172a" stroke="#d4af37" stroke-width="8"/>
+  <path d="M 120 370 C 185 340 240 340 256 360 C 272 340 327 340 392 370 L 392 165 C 327 135 272 135 256 155 C 240 135 185 135 120 165 Z" fill="#1e293b" stroke="#e2b93b" stroke-width="8"/>
+  <path d="M 256 155 L 256 360" stroke="#e2b93b" stroke-width="8"/>
+  <circle cx="256" cy="256" r="42" fill="#d4af37" opacity="0.18"/>
+  <text x="256" y="272" font-family="'Amiri', 'Traditional Arabic', serif" font-size="76" fill="#f59e0b" text-anchor="middle" font-weight="bold">قرآن</text>
+  <circle cx="256" cy="100" r="12" fill="#10b981"/>
+</svg>

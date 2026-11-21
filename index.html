@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="description" content="Ultra-fast, responsive offline Quran replicating Al-Quran Al-Karim with Word-by-Word meaning, Side Margin translation, and full Tajweed colors.">
+  <title>Al-Quran Al-Karim | Word-by-Word & Tajweed Edition</title>
+  
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="assets/icon-192.svg">
+  <link rel="apple-touch-icon" href="assets/icon-192.svg">
+
+  <!-- Google Fonts: Amiri & IBM Plex Sans / Mono with fallback -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/mcmaster.css">
+</head>
+<body class="theme-parchment">
+
+  <!-- ========================================================================
+       TOP HEADER (McMaster-Carr Utilitarian Bar)
+       ======================================================================== -->
+  <header id="app-header">
+    <div class="header-left">
+      <button id="btn-toggle-sidebar" class="tool-btn" title="Toggle Surah Directory (Tab)">
+        <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+        <span class="btn-text">Catalog</span>
+      </button>
+
+      <div class="brand-badge" id="btn-home" title="Go to Al-Fatihah">
+        <span class="brand-arabic">القرآن الكريم</span>
+        <span>Al-Quran Al-Karim</span>
+        <span class="gold-tag">WBW + TAJWEED</span>
+      </div>
+    </div>
+
+    <!-- Center: Instant Search / Jump -->
+    <div class="header-center">
+      <div class="quick-jump-box">
+        <input type="text" id="global-search" placeholder="Jump: e.g. 36, Yasin, 2:255..." autocomplete="off" spellcheck="false">
+        <kbd>/</kbd>
+      </div>
+
+      <!-- Quick Surah Dropdown Selector -->
+      <select id="quick-surah-select" class="tool-btn" style="padding: 5px 8px; font-weight:600; max-width: 170px;">
+        <!-- Filled dynamically with 114 Surahs -->
+      </select>
+    </div>
+
+    <!-- Right: High-Performance Utility Controls -->
+    <div class="header-right">
+      <!-- Tajweed Colors Switch -->
+      <button id="btn-toggle-tajweed" class="tool-btn active" title="Toggle Tajweed Colors (Hot key: T)">
+        <span style="display:inline-block; width:9px; height:9px; border-radius:50%; background:#10b981;"></span>
+        <span>Tajweed</span>
+      </button>
+
+      <!-- Word by Word Detail Switch (Meaning is ALWAYS visible under each word) -->
+      <button id="btn-toggle-wbw" class="tool-btn active" title="Toggle Word-by-Word Details (Hot key: W)">
+        <span>WBW: Meaning</span>
+      </button>
+
+      <!-- Side Margin Translation Switch -->
+      <button id="btn-toggle-margin" class="tool-btn active" title="Toggle Line Meaning Margin (Hot key: S)">
+        <span>Side Line</span>
+      </button>
+
+      <!-- Font Resizing -->
+      <button id="btn-font-dec" class="tool-btn" title="Decrease Arabic font size">A−</button>
+      <button id="btn-font-inc" class="tool-btn" title="Increase Arabic font size">A+</button>
+
+      <!-- Theme Switcher -->
+      <button id="btn-cycle-theme" class="tool-btn" title="Cycle Theme: Parchment / Dark / Light (Hot key: M)">
+        <span id="theme-icon">📜 Parchment</span>
+      </button>
+
+      <!-- Offline Ready Indicator -->
+      <div class="badge-offline" id="offline-indicator" title="All 114 Surahs Pre-loaded for 100% Offline Access">
+        <span>⚡ OFFLINE 100%</span>
+      </div>
+
+      <!-- Keyboard Help -->
+      <button id="btn-help" class="tool-btn" title="Keyboard Shortcuts (?)">?</button>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       MAIN THREE-PANE WORKSPACE
+       ======================================================================== -->
+  <main id="app-layout">
+    
+    <!-- LEFT PANE: McMaster-Style Dense Catalog Index -->
+    <aside id="sidebar-catalog">
+      <div class="catalog-header">
+        <div class="catalog-tabs">
+          <button class="tab-btn active" data-tab="surahs">Surahs (114)</button>
+          <button class="tab-btn" data-tab="juz">Juz (30)</button>
+          <button class="tab-btn" data-tab="bookmarks">Bookmarks</button>
+        </div>
+        <div class="filter-input-wrap">
+          <input type="text" id="catalog-filter" placeholder="Filter by name, # or arabic..." autocomplete="off">
+        </div>
+      </div>
+      
+      <!-- Catalog Stream List -->
+      <div class="catalog-list" id="catalog-list">
+        <!-- Rendered dynamically -->
+      </div>
+    </aside>
+
+    <!-- CENTER PANE: Al-Quran Al-Karim Mushaf View (Continuous WBW + Tajweed) -->
+    <section id="mushaf-container">
+      <!-- Verses Stream: Rendered as Continuous Mushaf Page (Matching Image 2) -->
+      <div class="verses-stream" id="verses-stream">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- RIGHT PANE: Side Line Translation Margin (Direct physical book replication) -->
+    <aside id="margin-panel">
+      <div class="margin-header">
+        <span>Line Translation</span>
+        <span style="font-family:var(--font-mono); font-size:11px; color:var(--text-light);" id="margin-meta-count">7 Ayahs</span>
+      </div>
+      <div class="margin-list" id="margin-list">
+        <!-- Rendered side-by-side with verse lines -->
+      </div>
+    </aside>
+  </main>
+
+  <!-- ========================================================================
+       TAJWEED INTERACTIVE COLOR LEGEND (Bottom Pinned Bar)
+       ======================================================================== -->
+  <footer id="tajweed-legend">
+    <div class="legend-chips">
+      <span style="font-weight:700; text-transform:uppercase; color:var(--text-muted); margin-right:4px;">Tajweed:</span>
+      
+      <div class="legend-chip" title="Madd Lazim: Prolong 6 vowels">
+        <span class="legend-dot" style="background:var(--tajweed-madd-necessary);"></span>
+        <span>Madd Lazim (6)</span>
+      </div>
+
+      <div class="legend-chip" title="Madd Wajib: Prolong 4-5 vowels">
+        <span class="legend-dot" style="background:var(--tajweed-madd-obligatory);"></span>
+        <span>Madd Wajib (4-5)</span>
+      </div>
+
+      <div class="legend-chip" title="Madd Ja'iz: Prolong 2, 4 or 6 vowels">
+        <span class="legend-dot" style="background:var(--tajweed-madd-permissible);"></span>
+        <span>Madd Ja'iz (2/4/6)</span>
+      </div>
+
+      <div class="legend-chip" title="Madd Asli: Normal 2 vowels">
+        <span class="legend-dot" style="background:var(--tajweed-madd-normal);"></span>
+        <span>Madd Normal (2)</span>
+      </div>
+
+      <div class="legend-chip" title="Ghunnah, Ikhfa & Idgham: Nasalization">
+        <span class="legend-dot" style="background:var(--tajweed-ghunnah);"></span>
+        <span>Ghunnah / Ikhfa</span>
+      </div>
+
+      <div class="legend-chip" title="Qalqalah: Echoing bounce on letters (ق ط ب ج د)">
+        <span class="legend-dot" style="background:var(--tajweed-qalqalah);"></span>
+        <span>Qalqalah (Echo)</span>
+      </div>
+
+      <div class="legend-chip" title="Hamzatul Wasl & Silent unpronounced letters">
+        <span class="legend-dot" style="background:var(--tajweed-silent);"></span>
+        <span>Silent / Wasl</span>
+      </div>
+    </div>
+
+    <!-- Active Word Live Inspector & Audio Player Controls -->
+    <div class="bottom-player-bar">
+      <div id="word-inspector" class="word-inspector-pill" title="Active Word details (Click word to play audio)">
+        <span id="insp-ar" class="insp-ar"></span>
+        <span id="insp-tr" class="insp-tr"></span>
+        <span id="insp-en" class="insp-en">Hover or click any word</span>
+      </div>
+      <audio id="audio-player" preload="none"></audio>
+      <button id="btn-play-surah" class="tool-btn" title="Play Full Surah Recitation (Mishary Alafasy)">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <span id="player-btn-label">Recite Surah</span>
+      </button>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       KEYBOARD SHORTCUTS MODAL
+       ======================================================================== -->
+  <div class="modal-overlay" id="help-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>McMaster-Speed Keyboard Shortcuts</h3>
+        <button class="modal-close" id="modal-close-btn">&times;</button>
+      </div>
+      <div class="shortcut-list">
+        <div class="shortcut-row"><span>Focus Instant Search</span><kbd>/</kbd> or <kbd>Ctrl+K</kbd></div>
+        <div class="shortcut-row"><span>Previous / Next Surah</span><kbd>[</kbd> / <kbd>]</kbd></div>
+        <div class="shortcut-row"><span>Scroll to Next Ayah</span><kbd>J</kbd> or <kbd>↓</kbd></div>
+        <div class="shortcut-row"><span>Scroll to Prev Ayah</span><kbd>K</kbd> or <kbd>↑</kbd></div>
+        <div class="shortcut-row"><span>Toggle Interlinear / Continuous Flow</span><kbd>F</kbd></div>
+        <div class="shortcut-row"><span>Toggle Tajweed Colors</span><kbd>T</kbd></div>
+        <div class="shortcut-row"><span>Toggle Word-by-Word Meaning</span><kbd>W</kbd></div>
+        <div class="shortcut-row"><span>Toggle Side Margin Translation</span><kbd>S</kbd></div>
+        <div class="shortcut-row"><span>Toggle Left Catalog Sidebar</span><kbd>Tab</kbd> or <kbd>B</kbd></div>
+        <div class="shortcut-row"><span>Cycle Theme (Light / Parchment / Dark)</span><kbd>M</kbd></div>
+        <div class="shortcut-row"><span>Play / Pause Recitation</span><kbd>Space</kbd></div>
+        <div class="shortcut-row"><span>Dismiss / Close</span><kbd>Esc</kbd></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/db.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

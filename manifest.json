@@ -1,0 +1,23 @@
+{
+  "name": "Al-Quran Al-Karim - Word by Word & Tajweed",
+  "short_name": "Al-Quran WBW",
+  "description": "Ultra-fast, responsive offline Quran with word-by-word meaning, side line translations, and full Tajweed colors.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0d1b2a",
+  "theme_color": "#1b2d42",
+  "icons": [
+    {
+      "src": "./assets/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./assets/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

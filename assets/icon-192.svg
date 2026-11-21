@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <rect width="192" height="192" rx="32" fill="#1b2d42"/>
+  <rect x="16" y="16" width="160" height="160" rx="20" fill="#0f172a" stroke="#d4af37" stroke-width="4"/>
+  <!-- Decorative Quran Book Shape -->
+  <path d="M 46 140 C 70 128 90 128 96 136 C 102 128 122 128 146 140 L 146 64 C 122 52 102 52 96 60 C 90 52 70 52 46 64 Z" fill="#1e293b" stroke="#e2b93b" stroke-width="3"/>
+  <path d="M 96 60 L 96 136" stroke="#e2b93b" stroke-width="3"/>
+  <!-- Arabic Calligraphy Accent -->
+  <circle cx="96" cy="96" r="14" fill="#d4af37" opacity="0.15"/>
+  <text x="96" y="102" font-family="'Amiri', 'Traditional Arabic', serif" font-size="28" fill="#f59e0b" text-anchor="middle" font-weight="bold">قرآن</text>
+  <circle cx="96" cy="40" r="4" fill="#10b981"/>
+</svg>

@@ -1,0 +1,1258 @@
+/* ==========================================================================
+   AL-QURAN AL-KARIM — MCMASTER-CARR HIGH-PERFORMANCE EDITION
+   Utilitarian, Ultra-Dense, Sub-millisecond Rendering, Offline PWA
+   ========================================================================== */
+
+:root {
+  /* McMaster-Carr Industrial Palette */
+  --bg-primary: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-surface-alt: #f1f5f9;
+  --bg-header: #0f172a;
+  --bg-sidebar: #ffffff;
+  --bg-hover: #e2e8f0;
+  --bg-active: #dbeafe;
+  
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-light: #94a3b8;
+  --text-inverse: #ffffff;
+  
+  --border: #cbd5e1;
+  --border-subtle: #e2e8f0;
+  --border-strong: #94a3b8;
+  
+  --brand-yellow: #f59e0b;
+  --brand-yellow-light: #fef3c7;
+  --brand-accent: #2563eb;
+  --brand-success: #16a34a;
+
+  /* Al-Quran Al-Karim Standard Tajweed Color System */
+  --tajweed-silent: #94a3b8;          /* Wasl, silent letters, solar lam */
+  --tajweed-qalqalah: #0284c7;        /* Echoing blue (ق ط ب ج د) */
+  --tajweed-ghunnah: #16a34a;         /* Nasal green */
+  --tajweed-ikhafa: #0d9488;          /* Concealed teal/green */
+  --tajweed-idgham: #15803d;          /* Merged green */
+  --tajweed-iqlab: #06b6d4;           /* Meem replacement cyan */
+  --tajweed-madd-normal: #d97706;     /* 2 counts - gold/amber */
+  --tajweed-madd-permissible: #ea580c;/* 2-4-6 counts - warm orange */
+  --tajweed-madd-obligatory: #dc2626; /* 4-5 counts - bright red */
+  --tajweed-madd-necessary: #991b1b;  /* 6 counts - deep ruby red */
+
+  /* Arabic Typography */
+  --font-arabic: 'Amiri', 'Traditional Arabic', 'Scheherazade New', serif;
+  --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --arabic-size: 32px;
+  --english-size: 13px;
+  --header-height: 52px;
+  --sidebar-width: 310px;
+  --margin-panel-width: 330px;
+}
+
+/* Dark / Night Mode */
+body.theme-dark {
+  --bg-primary: #0b1120;
+  --bg-surface: #111827;
+  --bg-surface-alt: #1f2937;
+  --bg-header: #030712;
+  --bg-sidebar: #0f172a;
+  --bg-hover: #1e293b;
+  --bg-active: #1e3a8a;
+
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --text-light: #6b7280;
+  --text-inverse: #ffffff;
+
+  --border: #374151;
+  --border-subtle: #1f2937;
+  --border-strong: #4b5563;
+
+  --brand-yellow-light: #78350f;
+  --tajweed-silent: #64748b;
+  --tajweed-qalqalah: #38bdf8;
+  --tajweed-ghunnah: #4ade80;
+  --tajweed-ikhafa: #2dd4bf;
+  --tajweed-idgham: #22c55e;
+  --tajweed-iqlab: #22d3ee;
+  --tajweed-madd-normal: #fbbf24;
+  --tajweed-madd-permissible: #fb923c;
+  --tajweed-madd-obligatory: #f87171;
+  --tajweed-madd-necessary: #ef4444;
+}
+
+/* Parchment Traditional Mushaf Mode */
+body.theme-parchment {
+  --bg-primary: #fcf9f2;
+  --bg-surface: #fffdfa;
+  --bg-surface-alt: #f5eedf;
+  --bg-header: #2c251e;
+  --bg-sidebar: #faf4e8;
+  --bg-hover: #eeddc4;
+  --bg-active: #e2cbab;
+
+  --text-main: #1f1b18;
+  --text-muted: #5e5348;
+  --text-light: #948677;
+
+  --border: #dfd3bf;
+  --border-subtle: #eee6d6;
+  --border-strong: #bead93;
+}
+
+/* Reset & Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: var(--font-system);
+  color: var(--text-main);
+  background-color: var(--bg-primary);
+  font-size: 14px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   APP HEADER (McMaster-Carr Industrial Density)
+   ========================================================================== */
+#app-header {
+  height: var(--header-height);
+  background: var(--bg-header);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  border-bottom: 2px solid var(--brand-yellow);
+  z-index: 100;
+  user-select: none;
+}
+
+.header-left, .header-center, .header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.brand-badge .gold-tag {
+  background: var(--brand-yellow);
+  color: #000;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 5px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.brand-arabic {
+  font-family: var(--font-arabic);
+  font-size: 18px;
+  color: var(--brand-yellow);
+  margin-right: 2px;
+}
+
+/* Quick Search / Jump Input */
+.quick-jump-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.quick-jump-box input {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #ffffff;
+  font-size: 13px;
+  padding: 5px 28px 5px 10px;
+  border-radius: 3px;
+  width: 220px;
+  transition: width 0.15s ease, border-color 0.15s ease;
+}
+
+.quick-jump-box input:focus {
+  outline: none;
+  border-color: var(--brand-yellow);
+  width: 280px;
+  background: #0f172a;
+}
+
+.quick-jump-box kbd {
+  position: absolute;
+  right: 6px;
+  background: #334155;
+  color: #94a3b8;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 1px 4px;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+/* Action Buttons & Switches */
+.tool-btn {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #e2e8f0;
+  font-size: 12px;
+  padding: 4px 9px;
+  border-radius: 3px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
+  transition: all 0.1s ease;
+  white-space: nowrap;
+}
+
+.tool-btn:hover {
+  background: #334155;
+  border-color: #64748b;
+  color: #ffffff;
+}
+
+.tool-btn.active {
+  background: var(--brand-yellow);
+  border-color: var(--brand-yellow);
+  color: #000000;
+  font-weight: 700;
+}
+
+.tool-btn svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+.badge-offline {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #064e3b;
+  border: 1px solid #059669;
+  color: #6ee7b7;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  padding: 2px 7px;
+  border-radius: 2px;
+  font-weight: 600;
+}
+
+.badge-offline.downloading {
+  background: #78350f;
+  border-color: #d97706;
+  color: #fde68a;
+}
+
+/* ==========================================================================
+   APP WORKSPACE GRID
+   ========================================================================== */
+#app-layout {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr var(--margin-panel-width);
+  height: calc(100vh - var(--header-height));
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Left Sidebar - McMaster Catalog Directory */
+#sidebar-catalog {
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  user-select: none;
+}
+
+.catalog-header {
+  padding: 8px 10px;
+  background: var(--bg-surface-alt);
+  border-bottom: 1px solid var(--border);
+}
+
+.catalog-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.tab-btn {
+  flex: 1;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 6px;
+  border-radius: 2px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.tab-btn.active {
+  background: var(--bg-surface);
+  border-color: var(--brand-yellow);
+  color: var(--text-main);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.filter-input-wrap {
+  position: relative;
+}
+
+.filter-input-wrap input {
+  width: 100%;
+  padding: 5px 8px;
+  font-size: 12px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: var(--bg-surface);
+  color: var(--text-main);
+}
+
+.filter-input-wrap input:focus {
+  outline: none;
+  border-color: var(--brand-accent);
+}
+
+.catalog-list {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}
+
+.catalog-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border-subtle);
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.05s ease;
+}
+
+.catalog-item:hover {
+  background: var(--bg-hover);
+}
+
+.catalog-item.active {
+  background: var(--bg-active);
+  border-left: 3px solid var(--brand-accent);
+  font-weight: 600;
+}
+
+.catalog-item .item-id {
+  font-family: var(--font-mono);
+  color: var(--text-light);
+  font-size: 11px;
+  width: 28px;
+  flex-shrink: 0;
+}
+
+.catalog-item .item-info {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 6px;
+}
+
+.catalog-item .item-name-en {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.catalog-item .item-name-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.catalog-item .item-arabic {
+  font-family: var(--font-arabic);
+  font-size: 16px;
+  color: var(--text-main);
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   CENTER MUSHAF READING VIEW (Word by Word + Tajweed)
+   ========================================================================== */
+#mushaf-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--bg-primary);
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+  position: relative;
+}
+
+.surah-banner {
+  background: var(--bg-surface);
+  border-bottom: 2px solid var(--border);
+  padding: 16px 20px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.surah-banner-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 6px;
+}
+
+.surah-banner-title h1 {
+  font-family: var(--font-arabic);
+  font-size: 38px;
+  color: var(--text-main);
+  font-weight: normal;
+}
+
+.surah-banner-title h2 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-main);
+}
+
+.surah-meta-tags {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  margin-bottom: 12px;
+}
+
+.surah-meta-tags span {
+  background: var(--bg-surface-alt);
+  padding: 2px 8px;
+  border-radius: 2px;
+  border: 1px solid var(--border-subtle);
+}
+
+.bismillah-block {
+  font-family: var(--font-arabic);
+  font-size: 30px;
+  color: var(--text-main);
+  margin: 12px auto 6px;
+  direction: rtl;
+  user-select: none;
+}
+
+/* Verse Stream / Mushaf Workspace */
+.verses-stream {
+  padding: 16px 20px 80px;
+  max-width: 1040px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ==========================================================================
+   CONTINUOUS MUSHAF PAGE FRAME (EXACT AL-QURAN AL-KARIM REPLICATION)
+   ========================================================================== */
+.mushaf-page-frame {
+  background: var(--bg-surface);
+  border: 3px double var(--brand-yellow);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  margin-bottom: 24px;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+body.theme-parchment .mushaf-page-frame {
+  background: #fffdf9;
+  border: 10px solid #234e32; /* Traditional Islamic Forest Green */
+  outline: 3px solid #d4af37;  /* Gold inner line */
+  box-shadow: 0 8px 32px rgba(44, 37, 30, 0.12);
+}
+
+body.theme-dark .mushaf-page-frame {
+  background: #111827;
+  border-color: #f59e0b;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Plaque Header inside the frame */
+.mushaf-frame-header {
+  background: var(--bg-surface-alt);
+  border-bottom: 2px solid var(--brand-yellow);
+  padding: 14px 20px;
+  text-align: center;
+}
+
+.surah-plaque {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 2px solid #d97706;
+  border-radius: 6px;
+  padding: 6px 32px;
+  margin-bottom: 6px;
+  box-shadow: 0 2px 6px rgba(217, 119, 6, 0.15);
+}
+
+body.theme-dark .surah-plaque {
+  background: linear-gradient(135deg, #78350f 0%, #451a03 100%);
+  border-color: #f59e0b;
+}
+
+.surah-plaque h1 {
+  font-family: var(--font-arabic);
+  font-size: 34px;
+  color: #78350f;
+  margin: 0;
+  line-height: 1.2;
+}
+
+body.theme-dark .surah-plaque h1 {
+  color: #fbbf24;
+}
+
+.surah-plaque h2 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #92400e;
+  margin: 0;
+}
+
+body.theme-dark .surah-plaque h2 {
+  color: #fde68a;
+}
+
+/* Bismillah in Frame */
+.mushaf-bismillah-row {
+  text-align: center;
+  padding: 16px 20px 10px;
+  direction: rtl;
+  border-bottom: 1px dashed var(--border-subtle);
+}
+
+.bismillah-text {
+  font-family: var(--font-arabic);
+  font-size: 34px;
+  color: var(--text-main);
+  line-height: 1.4;
+  display: inline-block;
+}
+
+.bismillah-trans {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 4px;
+  direction: ltr;
+}
+
+/* ==========================================================================
+   CONTINUOUS MUSHAF FLOW (AUTHENTIC UNBROKEN ARABIC SENTENCES)
+   ========================================================================== */
+.mushaf-continuous-flow {
+  direction: rtl;
+  text-align: justify;
+  text-align-last: center;
+  padding: 24px 28px 36px;
+  line-height: 2.8; /* Room for aligned interlinear translation */
+  user-select: text;
+}
+
+/* Each Word Unit: Tight, Unbroken, Natural Quran Flow */
+.mushaf-word-unit {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  vertical-align: top;
+  margin: 0 4px 18px 4px; /* Natural Arabic word spacing, identical to Image 2 */
+  padding: 2px 3px;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.12s ease;
+  user-select: none;
+}
+
+.mushaf-word-unit:hover {
+  background: rgba(245, 158, 11, 0.18) !important;
+  border-radius: 4px;
+  transform: translateY(-1px);
+}
+
+.mushaf-word-unit.playing {
+  background: var(--brand-yellow-light) !important;
+  border-radius: 4px;
+}
+
+.mushaf-word-unit.highlight-ayah {
+  background: rgba(37, 99, 235, 0.1) !important;
+  border-radius: 4px;
+}
+
+.mushaf-word-ar {
+  font-family: var(--font-arabic);
+  font-size: var(--arabic-size, 34px);
+  color: var(--text-main);
+  text-align: center;
+  direction: rtl;
+  line-height: 1.35;
+  white-space: nowrap;
+  display: block;
+}
+
+/* ==========================================================================
+   WORD BY WORD MEANING (ALWAYS VISIBLE UNDER EACH ARABIC WORD)
+   ========================================================================== */
+.mushaf-word-en {
+  font-family: var(--font-system);
+  font-size: var(--english-size, 11px);
+  color: var(--text-muted);
+  text-align: center;
+  direction: ltr;
+  margin-top: 3px;
+  font-weight: 500;
+  line-height: 1.15;
+  max-width: 85px;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
+  opacity: 0.9;
+  letter-spacing: -0.01em;
+  display: block !important; /* The word meaning is ALWAYS visible under each word */
+}
+
+/* Transliteration: toggled with Translit button */
+.mushaf-word-tr {
+  font-size: 9.5px;
+  color: var(--text-light);
+  font-style: italic;
+  text-align: center;
+  direction: ltr;
+  line-height: 1.1;
+  white-space: nowrap;
+  display: none;
+}
+
+body.translit-on .mushaf-word-tr {
+  display: block;
+}
+
+/* Authentic Ayah End Ornamental Marker ﴿١﴾ */
+.mushaf-ayah-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  font-family: var(--font-arabic);
+  font-size: calc(var(--arabic-size, 34px) * 0.9);
+  color: #d97706; /* Quranic Gold */
+  margin: 0 8px;
+  cursor: pointer;
+  user-select: none;
+  line-height: 1;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.mushaf-ayah-mark:hover {
+  transform: scale(1.2);
+  color: #b45309;
+}
+
+/* ==========================================================================
+   BOTTOM RUNNING TRANSLATION SECTION (MATCHING IMAGE 2 EXACTLY)
+   ========================================================================== */
+.mushaf-translations-section {
+  background: var(--bg-surface-alt);
+  border-top: 2px solid var(--border);
+  padding: 20px 24px;
+}
+
+.mushaf-trans-heading {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mushaf-trans-item {
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-main);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.mushaf-trans-item:hover {
+  border-color: var(--brand-accent);
+  background: var(--bg-active);
+}
+
+.mushaf-trans-item.active {
+  border-color: var(--brand-yellow);
+  background: var(--bg-active);
+  box-shadow: 0 0 0 1px var(--brand-yellow);
+  font-weight: 500;
+}
+
+.mushaf-trans-num {
+  font-weight: 700;
+  color: var(--brand-accent);
+  margin-right: 6px;
+  font-family: var(--font-mono);
+}
+
+/* The Word-by-Word Mushaf Core Flow (Unbroken Arabic Sentence Flow) */
+.verse-words-flow {
+  display: block;
+  text-align: right;
+  direction: rtl;
+  padding: 16px 20px 20px;
+  line-height: 2;
+  user-select: text;
+}
+
+/* Individual Word Unit (Fluid Interlinear, No Artificial Boxes or Gaps) */
+.wbw-unit {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  vertical-align: top;
+  margin: 0 1px 12px 1px;
+  padding: 0 2px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  transition: opacity 0.1s ease;
+}
+
+.wbw-unit:hover {
+  background: var(--bg-hover);
+  border-radius: 3px;
+}
+
+.wbw-unit.playing {
+  background: var(--brand-yellow-light);
+  border-radius: 3px;
+}
+
+/* Arabic Script Line — Natural Quranic Flow */
+.wbw-arabic {
+  font-family: var(--font-arabic);
+  font-size: var(--arabic-size);
+  color: var(--text-main);
+  text-align: center;
+  direction: rtl;
+  line-height: 1.35;
+  white-space: nowrap;
+  letter-spacing: 0;
+  display: inline-block;
+  padding: 0 1px;
+}
+
+/* Transliteration */
+.wbw-translit {
+  font-size: 9.5px;
+  color: var(--text-light);
+  font-style: italic;
+  font-family: var(--font-system);
+  text-align: center;
+  direction: ltr;
+  margin-top: 1px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+/* English Meaning (Clean, Aligned Directly Below Word, Controlled Width so Arabic stays connected) */
+.wbw-meaning {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  text-align: center;
+  direction: ltr;
+  margin-top: 2px;
+  font-weight: 500;
+  line-height: 1.15;
+  max-width: 66px;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
+  letter-spacing: -0.01em;
+  opacity: 0.9;
+}
+
+/* End of Ayah Ornamental Symbol — Flows In-line with the Arabic Sentence */
+.wbw-ayah-end {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  font-family: var(--font-arabic);
+  font-size: calc(var(--arabic-size) * 0.9);
+  color: var(--brand-yellow);
+  cursor: pointer;
+  margin: 0 4px;
+  padding: 0 2px;
+  user-select: none;
+  line-height: 1;
+  transition: transform 0.12s ease, color 0.12s ease;
+}
+
+.wbw-ayah-end:hover {
+  color: var(--brand-accent);
+  transform: scale(1.15);
+}
+
+
+/* Mobile-inline side translation card (when side margin panel is hidden or on small screens) */
+.verse-side-inline {
+  display: none;
+  padding: 10px 14px;
+  background: var(--bg-surface-alt);
+  border-top: 1px solid var(--border-subtle);
+  font-size: 13px;
+  color: var(--text-main);
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   RIGHT SIDE TRANSLATION MARGIN (Replicating Physical Al-Quran Al-Karim)
+   ========================================================================== */
+#margin-panel {
+  background: var(--bg-surface);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.margin-header {
+  padding: 10px 12px;
+  background: var(--bg-surface-alt);
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.margin-list {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 12px;
+  scrollbar-width: thin;
+}
+
+.margin-card {
+  padding: 10px 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 3px;
+  margin-bottom: 10px;
+  background: var(--bg-surface);
+  cursor: pointer;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-main);
+  transition: all 0.1s ease;
+}
+
+.margin-card:hover {
+  background: var(--bg-surface-alt);
+  border-color: var(--brand-accent);
+}
+
+.margin-card.active {
+  border-color: var(--brand-yellow);
+  background: var(--bg-active);
+  font-weight: 500;
+}
+
+.margin-card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  font-size: 10.5px;
+  font-family: var(--font-mono);
+  color: var(--text-light);
+}
+
+.margin-card-key {
+  font-weight: 700;
+  color: var(--brand-accent);
+}
+
+/* ==========================================================================
+   TAJWEED COLOR CODING RULES (Applied directly to <rule class="...">)
+   ========================================================================== */
+rule {
+  display: inline;
+}
+
+/* Silent Letters / Hamzatul Wasl / Solar Lam */
+rule.ham_wasl,
+rule.laam_shamsiyah,
+rule.slnt,
+rule.idgham_wo_ghunnah {
+  color: var(--tajweed-silent) !important;
+}
+
+/* Qalqalah (Echoing bounce on قطب جد) */
+rule.qalaqah {
+  color: var(--tajweed-qalqalah) !important;
+  font-weight: 700;
+}
+
+/* Ghunnah / Ikhfa / Idgham with Ghunnah */
+rule.ghunnah,
+rule.ikhafa,
+rule.ikhafa_shafawi,
+rule.idgham_ghunnah,
+rule.idgham_shafawi {
+  color: var(--tajweed-ghunnah) !important;
+  font-weight: 600;
+}
+
+/* Iqlab */
+rule.iqlab {
+  color: var(--tajweed-iqlab) !important;
+  font-weight: 700;
+}
+
+/* Madd Normal (2 harakat) */
+rule.madda_normal {
+  color: var(--tajweed-madd-normal) !important;
+}
+
+/* Madd Permissible (2, 4, 6 harakat - Madd Ja'iz) */
+rule.madda_permissible {
+  color: var(--tajweed-madd-permissible) !important;
+  font-weight: 600;
+}
+
+/* Madd Obligatory (4-5 harakat - Madd Wajib) */
+rule.madda_obligatory_monfasel,
+rule.madda_obligatory_mottasel {
+  color: var(--tajweed-madd-obligatory) !important;
+  font-weight: 700;
+}
+
+/* Madd Necessary (6 harakat - Madd Lazim) */
+rule.madda_necessary {
+  color: var(--tajweed-madd-necessary) !important;
+  font-weight: 800;
+}
+
+/* Superscript alef */
+rule.custom-alef-maksora {
+  color: inherit;
+}
+
+/* When Tajweed Colors are Toggled OFF */
+body.tajweed-off rule {
+  color: inherit !important;
+  font-weight: inherit !important;
+}
+
+
+
+/* ==========================================================================
+   TAJWEED INTERACTIVE LEGEND BAR
+   ========================================================================== */
+#tajweed-legend {
+  position: fixed;
+  bottom: 0;
+  left: var(--sidebar-width);
+  right: var(--margin-panel-width);
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border);
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 11px;
+  z-index: 50;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.04);
+  transition: all 0.2s ease;
+}
+
+.legend-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.legend-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  transition: all 0.1s ease;
+}
+
+.legend-chip:hover {
+  background: var(--bg-hover);
+  border-color: var(--border);
+}
+
+.legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Bottom Player & Quick Utilities */
+.bottom-player-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.word-inspector-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-surface-alt);
+  border: 1px solid var(--border);
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-size: 11.5px;
+  max-width: 340px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.insp-ar {
+  font-family: var(--font-arabic);
+  font-size: 18px;
+  color: var(--brand-yellow);
+  direction: rtl;
+  line-height: 1;
+}
+
+.insp-tr {
+  font-style: italic;
+  color: var(--text-light);
+  font-size: 11px;
+}
+
+.insp-en {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+/* ==========================================================================
+   MODAL / SHORTCUTS / SETTINGS
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 90%;
+  max-width: 520px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  padding: 20px;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-header h3 {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--text-muted);
+}
+
+.shortcut-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 12px;
+}
+
+.shortcut-row kbd {
+  background: var(--bg-surface-alt);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 2px 6px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (Phone, Tablet, Laptop)
+   ========================================================================== */
+@media (max-width: 1100px) {
+  :root {
+    --sidebar-width: 260px;
+    --margin-panel-width: 280px;
+    --arabic-size: 28px;
+  }
+}
+
+@media (max-width: 900px) {
+  #app-layout {
+    grid-template-columns: var(--sidebar-width) 1fr;
+  }
+  #margin-panel {
+    display: none;
+  }
+  #tajweed-legend {
+    right: 0;
+  }
+  .verse-side-inline {
+    display: block;
+  }
+}
+
+@media (max-width: 680px) {
+  :root {
+    --arabic-size: 26px;
+    --english-size: 12px;
+    --header-height: 48px;
+  }
+
+  #app-layout {
+    grid-template-columns: 1fr;
+  }
+
+  #sidebar-catalog {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100%;
+    z-index: 80;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.2);
+    transform: translateX(-100%);
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  #sidebar-catalog.open {
+    transform: translateX(0);
+  }
+
+  #tajweed-legend {
+    left: 0;
+    font-size: 10px;
+    padding: 4px 8px;
+    overflow-x: auto;
+  }
+
+  .quick-jump-box input {
+    width: 140px;
+  }
+  .quick-jump-box input:focus {
+    width: 170px;
+  }
+
+  .verses-stream {
+    padding: 10px 8px 90px;
+  }
+
+  .wbw-unit {
+    min-width: 50px;
+    padding: 4px 6px;
+  }
+}

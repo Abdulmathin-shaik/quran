@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+*.log
+rendered_preview.png
+test_debug.html
+test_verify.html
