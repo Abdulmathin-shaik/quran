@@ -135,6 +135,16 @@
        TAJWEED INTERACTIVE COLOR LEGEND (Bottom Pinned Bar)
        ======================================================================== -->
   <footer id="tajweed-legend">
+    <!-- Mobile Tajweed Rules Trigger Button -->
+    <button id="btn-tajweed-guide" class="tool-btn btn-tajweed-guide" title="View Tajweed Color Code Rules">
+      <span class="legend-dot-cluster">
+        <span class="dot-c" style="background:var(--tajweed-madd-necessary);"></span>
+        <span class="dot-c" style="background:var(--tajweed-ghunnah);"></span>
+        <span class="dot-c" style="background:var(--tajweed-qalqalah);"></span>
+      </span>
+      <span>Tajweed</span>
+    </button>
+
     <div class="legend-chips">
       <span style="font-weight:700; text-transform:uppercase; color:var(--text-muted); margin-right:4px;">Tajweed:</span>
       
@@ -179,15 +189,78 @@
       <div id="word-inspector" class="word-inspector-pill" title="Active Word details (Click word to play audio)">
         <span id="insp-ar" class="insp-ar"></span>
         <span id="insp-tr" class="insp-tr"></span>
-        <span id="insp-en" class="insp-en">Hover or click any word</span>
+        <span id="insp-en" class="insp-en">Tap word</span>
       </div>
       <audio id="audio-player" preload="none"></audio>
       <button id="btn-play-surah" class="tool-btn" title="Play Full Surah Recitation (Mishary Alafasy)">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        <span id="player-btn-label">Recite Surah</span>
+        <span id="player-btn-label">Recite</span>
       </button>
     </div>
   </footer>
+
+  <!-- ========================================================================
+       TAJWEED COLOR GUIDE MODAL
+       ======================================================================== -->
+  <div class="modal-overlay" id="tajweed-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Tajweed Color Code Rules</h3>
+        <button class="modal-close" id="tajweed-modal-close-btn">&times;</button>
+      </div>
+      <div class="tajweed-modal-body">
+        <div class="tajweed-modal-row">
+          <span class="legend-dot" style="background:var(--tajweed-madd-necessary); width:13px; height:13px; flex-shrink:0; margin-top:3px;"></span>
+          <div class="tajweed-modal-info">
+            <div class="tajweed-modal-title" style="color:var(--tajweed-madd-necessary);">Madd Lazim (Compulsory 6 Vowels)</div>
+            <div class="tajweed-modal-desc">Prolong for 6 vowel counts (harakat). Occurs when a madd letter is followed by a permanent sukun or shaddah.</div>
+          </div>
+        </div>
+        <div class="tajweed-modal-row">
+          <span class="legend-dot" style="background:var(--tajweed-madd-obligatory); width:13px; height:13px; flex-shrink:0; margin-top:3px;"></span>
+          <div class="tajweed-modal-info">
+            <div class="tajweed-modal-title" style="color:var(--tajweed-madd-obligatory);">Madd Wajib (Obligatory 4-5 Vowels)</div>
+            <div class="tajweed-modal-desc">Prolong for 4 or 5 vowel counts. Occurs when a madd letter is followed by a hamzah.</div>
+          </div>
+        </div>
+        <div class="tajweed-modal-row">
+          <span class="legend-dot" style="background:var(--tajweed-madd-permissible); width:13px; height:13px; flex-shrink:0; margin-top:3px;"></span>
+          <div class="tajweed-modal-info">
+            <div class="tajweed-modal-title" style="color:var(--tajweed-madd-permissible);">Madd Ja'iz / Arid Li-s-Sukun (2, 4 or 6 Vowels)</div>
+            <div class="tajweed-modal-desc">Permissible prolongation for 2, 4, or 6 counts before stopping on a temporary sukun.</div>
+          </div>
+        </div>
+        <div class="tajweed-modal-row">
+          <span class="legend-dot" style="background:var(--tajweed-madd-normal); width:13px; height:13px; flex-shrink:0; margin-top:3px;"></span>
+          <div class="tajweed-modal-info">
+            <div class="tajweed-modal-title" style="color:var(--tajweed-madd-normal);">Madd Normal / Asli (2 Vowels)</div>
+            <div class="tajweed-modal-desc">Natural 2 vowel counts prolongation for Alif, Waw, or Ya without hamzah or sukun following.</div>
+          </div>
+        </div>
+        <div class="tajweed-modal-row">
+          <span class="legend-dot" style="background:var(--tajweed-ghunnah); width:13px; height:13px; flex-shrink:0; margin-top:3px;"></span>
+          <div class="tajweed-modal-info">
+            <div class="tajweed-modal-title" style="color:var(--tajweed-ghunnah);">Ghunnah, Ikhfa & Idgham with Ghunnah</div>
+            <div class="tajweed-modal-desc">Nasalization sound held for 2 vowel counts on Noon/Meem with shaddah or Ikhfa concealment.</div>
+          </div>
+        </div>
+        <div class="tajweed-modal-row">
+          <span class="legend-dot" style="background:var(--tajweed-qalqalah); width:13px; height:13px; flex-shrink:0; margin-top:3px;"></span>
+          <div class="tajweed-modal-info">
+            <div class="tajweed-modal-title" style="color:var(--tajweed-qalqalah);">Qalqalah (Echo / Rebound)</div>
+            <div class="tajweed-modal-desc">Bouncing or echoing reverberation on letters of Qutb Jad (ق ط ب ج د) when bearing sukun or stopping.</div>
+          </div>
+        </div>
+        <div class="tajweed-modal-row">
+          <span class="legend-dot" style="background:var(--tajweed-silent); width:13px; height:13px; flex-shrink:0; margin-top:3px;"></span>
+          <div class="tajweed-modal-info">
+            <div class="tajweed-modal-title" style="color:var(--tajweed-silent);">Hamzatul Wasl & Silent Letters</div>
+            <div class="tajweed-modal-desc">Letters written in script but unpronounced during continuous recitation (e.g. connecting Wasl, solar Lam).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ========================================================================
        KEYBOARD SHORTCUTS MODAL

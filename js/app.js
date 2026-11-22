@@ -71,6 +71,9 @@
     btnHelp: document.getElementById('btn-help'),
     helpModal: document.getElementById('help-modal'),
     modalCloseBtn: document.getElementById('modal-close-btn'),
+    btnTajweedGuide: document.getElementById('btn-tajweed-guide'),
+    tajweedModal: document.getElementById('tajweed-modal'),
+    tajweedModalCloseBtn: document.getElementById('tajweed-modal-close-btn'),
 
     // Word Live Inspector
     wordInspector: document.getElementById('word-inspector'),
@@ -790,6 +793,19 @@
       if (e.target === DOM.helpModal) DOM.helpModal.classList.remove('open');
     });
 
+    // Tajweed Rules Modal
+    if (DOM.btnTajweedGuide && DOM.tajweedModal) {
+      DOM.btnTajweedGuide.addEventListener('click', () => DOM.tajweedModal.classList.add('open'));
+    }
+    if (DOM.tajweedModalCloseBtn && DOM.tajweedModal) {
+      DOM.tajweedModalCloseBtn.addEventListener('click', () => DOM.tajweedModal.classList.remove('open'));
+    }
+    if (DOM.tajweedModal) {
+      DOM.tajweedModal.addEventListener('click', (e) => {
+        if (e.target === DOM.tajweedModal) DOM.tajweedModal.classList.remove('open');
+      });
+    }
+
     // Global Keyboard Hotkeys (McMaster speed experience)
     window.addEventListener('keydown', (e) => {
       // Ignore if typing inside input
@@ -848,6 +864,7 @@
           break;
         case 'Escape':
           DOM.helpModal.classList.remove('open');
+          if (DOM.tajweedModal) DOM.tajweedModal.classList.remove('open');
           break;
         case 'j':
         case 'ArrowDown':
